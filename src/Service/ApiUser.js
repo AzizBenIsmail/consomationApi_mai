@@ -7,5 +7,5 @@ export async function getAllUsers() {
 }
 
 export async function addUser(dataUser) {
-    return await axios.get(`${apiUrl}/addUser`,dataUser)
+    return await axios.post(`${apiUrl}/addUser`,dataUser)
 }
