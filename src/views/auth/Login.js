@@ -1,7 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { login } from "../../Service/ApiUser";
+import { useHistory } from "react-router-dom";
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const history = useHistory();
+
+  const handleLogin = async () => {
+    try {
+      const res = await login({ email, password });
+      localStorage.setItem("jwt_token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      if (res.data.user.roles === "client") {
+        history.push("/landing");
+      } else {
+        history.push("/admin/ListUsers");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div className="container mx-auto px-4 h-full">
@@ -54,6 +74,8 @@ export default function Login() {
                     </label>
                     <input
                       type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Email"
                     />
@@ -68,27 +90,18 @@ export default function Login() {
                     </label>
                     <input
                       type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Password"
                     />
-                  </div>
-                  <div>
-                    <label className="inline-flex items-center cursor-pointer">
-                      <input
-                        id="customCheckLogin"
-                        type="checkbox"
-                        className="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
-                      />
-                      <span className="ml-2 text-sm font-semibold text-blueGray-600">
-                        Remember me
-                      </span>
-                    </label>
                   </div>
 
                   <div className="text-center mt-6">
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="button"
+                      onClick={handleLogin}
                     >
                       Sign In
                     </button>
@@ -98,10 +111,7 @@ export default function Login() {
             </div>
             <div className="flex flex-wrap mt-6 relative">
               <div className="w-1/2">
-                <Link 
-                  to="/auth/forget"
-                  className="text-blueGray-200"
-                >
+                <Link to="/auth/forget" className="text-blueGray-200">
                   <small>Forgot password?</small>
                 </Link>
               </div>

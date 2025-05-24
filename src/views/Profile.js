@@ -4,6 +4,7 @@ import Navbar from "components/Navbars/AuthNavbar.js";
 import Footer from "components/Footers/Footer.js";
 
 export default function Profile() {
+  const user = JSON.parse(localStorage.getItem("user"))
   return (
     <>
       <Navbar transparent />
@@ -60,8 +61,12 @@ export default function Profile() {
                       <button
                         className="bg-lightBlue-500 active:bg-lightBlue-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
                         type="button"
+                          onClick={() => {
+                          localStorage.clear();
+                          window.location.href = "/auth";
+                        }}
                       >
-                        Connect
+                        Logout
                       </button>
                     </div>
                   </div>
@@ -96,7 +101,7 @@ export default function Profile() {
                 </div>
                 <div className="text-center mt-12">
                   <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
-                    Jenna Stones
+                    {user.firstName}
                   </h3>
                   <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
                     <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>{" "}

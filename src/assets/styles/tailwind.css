@@ -2025,6 +2025,16 @@ select {
   padding-right: 3rem;
 }
 
+.px-14 {
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
+.px-20 {
+  padding-left: 20rem;
+  padding-right: 20rem;
+}
+
 .py-16 {
   padding-top: 4rem;
   padding-bottom: 4rem;
